@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Metal Memes MX - Creador de Contenido</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              red: '#FF2A44',
+              crimson: '#E61919',
+              dark: '#0D0E12',
+              surface: '#121317',
+              surfaceCard: '#1A1B20',
+              border: '#2A2C34'
+            }
+          },
+          fontFamily: {
+            anton: ['Anton', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Courier New', 'monospace'],
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Anton, JetBrains Mono, Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #000;
+      color: #F3F4F6;
+      font-family: 'Inter', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .font-metal {
+      font-family: 'Anton', sans-serif;
+      letter-spacing: 0.04em;
+    }
+    .font-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="flex justify-center min-h-screen bg-black">
+
+  <!-- Mobile App Frame (Max 440px) -->
+  <div class="w-full max-w-[440px] min-h-screen bg-[#0D0E12] flex flex-col relative pb-20 border-x border-[#22242C] shadow-2xl">
+
+    <!-- Top App Bar Global -->
+    <header class="sticky top-0 z-50 bg-[#121317]/95 backdrop-blur border-b border-[#22242C] px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded bg-[#1A1B20] border border-[#33353F] flex items-center justify-center p-1 text-red-500">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path d="M12 2L1 21h22L12 2zm0 4.5l7.5 13h-15L12 6.5z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-sm font-metal text-white tracking-wider leading-none">METAL MEMES MX</h1>
+          <p id="topBarSubtitle" class="text-[10px] font-code text-red-500 tracking-tight mt-0.5">// NOTICIAS</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-[9px] font-code bg-red-600/20 text-red-400 border border-red-500/30 px-2 py-0.5 rounded font-bold">1080×1440 (3:4)</span>
+        <div class="w-7 h-7 rounded-full bg-[#1A1B20] border border-[#33353F] flex items-center justify-center text-xs">⚡</div>
+      </div>
+    </header>
+
+    <!-- ========================================== -->
+    <!-- TAB 1: NOTICIAS & TENDENCIAS -->
+    <!-- ========================================== -->
+    <main id="tab-noticias" class="flex-1 p-4 space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="text-[10px] font-code text-red-400 font-bold uppercase tracking-wider">● HOY • NOTICIAS EN TENDENCIA</span>
+          <h2 class="text-2xl font-metal text-white tracking-wide">RADAR DE GUERRA</h2>
+        </div>
+        <span class="text-[10px] font-code bg-[#1A1B20] border border-[#2F323E] px-2 py-1 rounded text-gray-400">12 SIN PROCESAR</span>
+      </div>
+
+      <!-- Buscador -->
+      <div class="relative">
+        <input type="text" placeholder="Filtrar por banda, rumor o fuente..." class="w-full bg-[#1A1B20] border border-[#2B2D38] rounded-lg px-3 py-2 text-xs font-code text-gray-200 placeholder-gray-500 focus:outline-none focus:border-red-500">
+      </div>
+
+      <!-- Tags de género -->
+      <div class="flex gap-2 overflow-x-auto no-scrollbar py-1 text-[11px] font-code font-bold">
+        <button class="bg-[#FF2A44] text-white px-3 py-1 rounded-md shrink-0">🔥 TODAS (12)</button>
+        <button class="bg-[#1A1B20] text-gray-400 border border-[#2B2D38] px-3 py-1 rounded-md shrink-0">THRASH</button>
+        <button class="bg-[#1A1B20] text-gray-400 border border-[#2B2D38] px-3 py-1 rounded-md shrink-0">DEATH METAL</button>
+        <button class="bg-[#1A1B20] text-gray-400 border border-[#2B2D38] px-3 py-1 rounded-md shrink-0">BLACK</button>
+      </div>
+
+      <!-- Noticia Principal (Card Viral) -->
+      <div class="bg-[#121317] border border-[#252733] rounded-xl overflow-hidden shadow-lg space-y-3">
+        <div class="relative aspect-video">
+          <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover filter grayscale contrast-125" alt="Concert">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#121317] via-transparent to-transparent"></div>
+          <span class="absolute top-3 left-3 text-[10px] font-code bg-red-600 text-white font-bold px-2 py-0.5 rounded">94% VIRALIDAD</span>
+          <span class="absolute top-3 right-3 text-[10px] font-code bg-black/70 text-gray-300 px-2 py-0.5 rounded border border-white/10">BLABBERMOUTH</span>
+        </div>
+        <div class="p-4 pt-1 space-y-2">
+          <div class="flex items-center justify-between text-[10px] font-code text-gray-400">
+            <span>#THRASH_TITANS</span>
+            <span>HACE 24 MIN</span>
+          </div>
+          <h3 class="text-xl font-metal text-white leading-tight uppercase">SLAYER Y METALLICA CONFIRMAN FECHAS CONJUNTAS: "SERÁ LA GIRA DEFINITIVA"</h3>
+          <p class="text-xs text-gray-400 leading-relaxed font-sans">Kerry King y James Hetfield rompieron el silencio en conferencia confirmando 18 estadios de Latinoamérica.</p>
+          <button onclick="useNewsInTemplate('SLAYER Y METALLICA', 'CONFIRMAN FECHAS CONJUNTAS EN LATINOAMÉRICA: LA GIRA DEFINITIVA')" class="w-full py-2.5 bg-[#FF2A44] hover:bg-red-600 text-white font-metal text-sm tracking-wider rounded-lg flex items-center justify-center gap-1.5 transition">
+            🪄 USAR EN PLANTILLA
+          </button>
+        </div>
+      </div>
+
+      <!-- Noticia Secundaria 2 -->
+      <div class="bg-[#16171E] border border-[#252733] rounded-xl p-3 flex gap-3 items-center">
+        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=400&auto=format&fit=crop" class="w-20 h-20 rounded-lg object-cover grayscale shrink-0" alt="News">
+        <div class="flex-1 min-w-0 space-y-1">
+          <span class="text-[9px] font-code text-red-400 font-bold">// RECORD SPOTIFY</span>
+          <h4 class="text-sm font-metal text-white truncate">OZZY OSBOURNE SUPERA MIL MILLONES</h4>
+          <p class="text-[11px] text-gray-400 truncate">Crazy Train alcanza récord histórico en streaming.</p>
+          <button onclick="useNewsInTemplate('OZZY OSBOURNE', 'CRAZY TRAIN SUPERA LOS MIL MILLONES DE REPRODUCCIONES')" class="text-[10px] font-code text-red-400 font-bold hover:underline">
+            → Enviar a editor
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: EDITOR DE PLANTILLA VISUAL -->
+    <!-- ========================================== -->
+    <main id="tab-plantilla" class="flex-1 p-4 space-y-5 hidden">
+      <!-- Selector de Formato -->
+      <section>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-[11px] font-code text-gray-400 font-bold uppercase tracking-wider">// FORMATO DE PUBLICACIÓN</span>
+          <span id="currentFormatBadge" class="text-[11px] font-code text-red-400 font-bold">3:4 FEED (1080 × 1440)</span>
+        </div>
+        <div class="grid grid-cols-3 gap-2">
+          <button onclick="setRatio('1:1')" id="btn-1-1" class="format-btn py-2 px-3 rounded bg-[#1A1B20] border border-[#2B2D38] text-xs font-code font-bold text-gray-400 hover:text-white transition flex flex-col items-center gap-1">
+            <span class="w-4 h-4 border border-current rounded-sm"></span>
+            1:1 FEED
+          </button>
+          <button onclick="setRatio('3:4')" id="btn-3-4" class="format-btn py-2 px-3 rounded bg-[#FF2A44] border border-[#FF2A44] text-xs font-code font-bold text-white shadow-lg shadow-red-950 flex flex-col items-center gap-1">
+            <span class="w-3 h-4 border-2 border-current rounded-sm"></span>
+            3:4 FEED
+          </button>
+          <button onclick="setRatio('9:16')" id="btn-9-16" class="format-btn py-2 px-3 rounded bg-[#1A1B20] border border-[#2B2D38] text-xs font-code font-bold text-gray-400 hover:text-white transition flex flex-col items-center gap-1">
+            <span class="w-2.5 h-4 border border-current rounded-sm"></span>
+            9:16 STORY
+          </button>
+        </div>
+      </section>
+
+      <!-- Previsualizador de Plantilla en Vivo -->
+      <section>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-[11px] font-code text-gray-400 font-bold tracking-wider">// PREVISUALIZACIÓN VIVA</span>
+          <button onclick="randomizeBand()" class="text-[10px] font-code text-red-400 hover:text-white flex items-center gap-1">
+            🔄 EJEMPLO RÁPIDO
+          </button>
+        </div>
+
+        <div class="flex justify-center bg-black/60 p-2 rounded-xl border border-[#22242C]">
+          <div id="memeCanvas" class="w-full max-w-[340px] aspect-[3/4] bg-neutral-900 rounded-lg overflow-hidden relative shadow-2xl flex flex-col justify-between select-none border border-neutral-800 transition-all duration-300">
+            <!-- Imagen fondo -->
+            <img id="bgImage" src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=800&auto=format&fit=crop" alt="Band" class="absolute inset-0 w-full h-full object-cover filter grayscale contrast-125 brightness-90">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+
+            <!-- Top tag -->
+            <div class="p-3 z-10 flex justify-between items-start">
+              <span class="text-[9px] font-code uppercase tracking-widest px-2 py-0.5 rounded bg-black/60 border border-white/20 text-gray-300">
+                NOTICIA EXCLUSIVA
+              </span>
+            </div>
+
+            <!-- Titulares y Cintillo -->
+            <div class="z-20 flex flex-col justify-end">
+              <div class="px-4 pb-3 space-y-1">
+                <h2 id="previewHeadline" class="text-3xl sm:text-4xl font-metal text-white tracking-wider drop-shadow-[0_4px_10px_rgba(0,0,0,0.9)] uppercase leading-none">
+                  METALLICA
+                </h2>
+                <p id="previewSubheadline" class="text-lg sm:text-xl font-metal text-[#FF2A44] uppercase tracking-wide leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] italic">
+                  CONFIRMA NUEVA FECHA EN MÉXICO TRAS HISTÓRICO SOLD OUT
+                </p>
+              </div>
+
+              <!-- Cintillo Inferior Centrado con Logo YouTube -->
+              <div class="bg-[#FF2A44] py-2 px-3 flex items-center justify-center gap-2 shadow-inner border-t border-red-400/40">
+                <span class="text-[11px] font-extrabold uppercase italic tracking-tight text-white leading-none whitespace-nowrap">
+                  SIGUE NUESTRO CANAL DE YOUTUBE: <span class="underline decoration-black/40">METAL MEMES MX</span>
+                </span>
+                <svg class="w-4 h-4 fill-current text-white shrink-0" viewBox="0 0 24 24">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel de Edición de Textos -->
+      <section class="bg-[#121317] border border-[#22242C] rounded-xl p-4 space-y-4">
+        <div class="flex items-center justify-between border-b border-[#22242C] pb-2">
+          <span class="text-xs font-code font-bold text-gray-300 uppercase tracking-wider">// CAPA EDITABLE DE TEXTO</span>
+          <span class="text-[10px] font-code text-green-400 bg-green-500/10 px-2 py-0.5 rounded border border-green-500/20">EN VIVO</span>
+        </div>
+
+        <div class="space-y-1">
+          <label class="text-[11px] font-code text-gray-400">TITULAR DE BANDA / ARTISTA</label>
+          <input type="text" id="inputHeadline" value="METALLICA" oninput="updateHeadline(this.value)" class="w-full bg-[#1A1B20] border border-[#2F323E] rounded px-3 py-2 text-white font-metal tracking-wide text-sm focus:outline-none focus:border-red-500">
+        </div>
+
+        <div class="space-y-1">
+          <label class="text-[11px] font-code text-gray-400">SUBTÍTULO / NOTICIA (ROJO CARMESÍ)</label>
+          <textarea id="inputSubheadline" rows="2" oninput="updateSubheadline(this.value)" class="w-full bg-[#1A1B20] border border-[#2F323E] rounded px-3 py-2 text-white font-metal tracking-wide text-sm focus:outline-none focus:border-red-500 leading-tight">CONFIRMA NUEVA FECHA EN MÉXICO TRAS HISTÓRICO SOLD OUT</textarea>
+        </div>
+
+        <div class="space-y-1">
+          <label class="text-[11px] font-code text-gray-400">IMAGEN DE FONDO (URL O ARCHIVO)</label>
+          <div class="flex gap-2">
+            <input type="text" id="inputImgUrl" placeholder="Pega URL de imagen..." onchange="updateImage(this.value)" class="flex-1 bg-[#1A1B20] border border-[#2F323E] rounded px-3 py-2 text-xs text-gray-300 font-mono focus:outline-none focus:border-red-500">
+            <label class="bg-[#262833] hover:bg-[#323544] text-xs font-code font-bold text-white px-3 py-2 rounded cursor-pointer border border-[#3A3D4E] flex items-center">
+              📁 SUBIR
+              <input type="file" accept="image/*" class="hidden" onchange="uploadLocalImage(event)">
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <section class="space-y-2">
+        <button onclick="goToTab('caption')" class="w-full py-3.5 bg-gradient-to-r from-[#FF2A44] to-[#E61919] hover:from-red-500 text-white font-metal text-lg tracking-wider rounded-xl shadow-lg shadow-red-950 flex items-center justify-center gap-2 transition">
+          ⚡ GUARDAR Y GENERAR CAPTION
+        </button>
+      </section>
+    </main>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: GENERADOR DE CAPTION & HASHTAGS -->
+    <!-- ========================================== -->
+    <main id="tab-caption" class="flex-1 p-4 space-y-4 hidden">
+      <div>
+        <span class="text-[10px] font-code text-red-400 font-bold uppercase tracking-wider">// PASO 03 • COGNICIÓN NEURAL</span>
+        <h2 class="text-2xl font-metal text-white tracking-wide">GENERADOR DE COPY & HASHTAGS</h2>
+      </div>
+
+      <!-- Presets de Tono -->
+      <div class="grid grid-cols-2 gap-2 text-left">
+        <button onclick="selectTone('metalero')" id="tone-metalero" class="p-3 rounded-lg bg-[#FF2A44]/15 border border-[#FF2A44] text-left transition">
+          <span class="text-sm">🤘</span>
+          <p class="font-metal text-sm text-white mt-1">METALERO AUTÉNTICO</p>
+          <p class="text-[10px] text-gray-400 leading-tight">Pasión cruda, slang y hermandad</p>
+        </button>
+        <button onclick="selectTone('meme')" id="tone-meme" class="p-3 rounded-lg bg-[#16171E] border border-[#2B2D38] text-left transition">
+          <span class="text-sm">😂</span>
+          <p class="font-metal text-sm text-gray-300 mt-1">MEME & SARCASMO</p>
+          <p class="text-[10px] text-gray-500 leading-tight">Humor ácido y drama</p>
+        </button>
+        <button onclick="selectTone('periodistico')" id="tone-periodistico" class="p-3 rounded-lg bg-[#16171E] border border-[#2B2D38] text-left transition">
+          <span class="text-sm">📰</span>
+          <p class="font-metal text-sm text-gray-300 mt-1">PERIODÍSTICO PURO</p>
+          <p class="text-[10px] text-gray-500 leading-tight">Neutralidad y precisión</p>
+        </button>
+        <button onclick="selectTone('debate')" id="tone-debate" class="p-3 rounded-lg bg-[#16171E] border border-[#2B2D38] text-left transition">
+          <span class="text-sm">🥊</span>
+          <p class="font-metal text-sm text-gray-300 mt-1">DEBATE & FUEGO</p>
+          <p class="text-[10px] text-gray-500 leading-tight">Provocador de comentarios</p>
+        </button>
+      </div>
+
+      <!-- Caja de Caption Generado -->
+      <div class="bg-[#121317] border border-[#22242C] rounded-xl p-4 space-y-3">
+        <div class="flex justify-between items-center">
+          <span class="text-[11px] font-code text-gray-400 font-bold uppercase tracking-wider">// CAPTION EDITABLE</span>
+          <span id="charCount" class="text-[10px] font-code text-red-400">248 CARACTERES</span>
+        </div>
+        <textarea id="captionBox" rows="6" oninput="updateCharCount()" class="w-full bg-[#1A1B20] border border-[#2B2D38] rounded-lg p-3 text-xs text-gray-100 font-sans leading-relaxed focus:outline-none focus:border-red-500">¡HISTÓRICO! ⚡ Metallica acaba de confirmar lo que todos los headbangers estábamos esperando: nueva fecha confirmada en México tras agotar los primeros shows en minutos. 🤘 ¿Cuál es esa rola que NO puede faltar en el setlist? Déjalo en comentarios y etiqueta a ese compa que irá contigo al mosh pit.</textarea>
+
+        <div class="flex gap-2">
+          <button onclick="regenerateCaption()" class="flex-1 py-2 bg-[#1E2028] hover:bg-[#2A2C38] text-xs font-code font-bold text-gray-200 rounded border border-[#333544] flex items-center justify-center gap-1.5 transition">
+            🔄 REGENERAR IA
+          </button>
+          <button onclick="copyCaption()" class="px-4 py-2 bg-[#1E2028] hover:bg-[#2A2C38] text-xs font-code font-bold text-gray-200 rounded border border-[#333544] flex items-center justify-center gap-1.5 transition">
+            📋 COPIAR
+          </button>
+        </div>
+      </div>
+
+      <!-- Banco de Hashtags -->
+      <div class="bg-[#121317] border border-[#22242C] rounded-xl p-4 space-y-3">
+        <div class="flex justify-between items-center">
+          <span class="text-[11px] font-code text-gray-400 font-bold uppercase tracking-wider">// BANCO DE HASHTAGS</span>
+          <span class="text-[10px] font-code text-red-400">7 SELECCIONADOS</span>
+        </div>
+        <div class="flex flex-wrap gap-1.5" id="hashtagContainer">
+          <span class="text-[11px] font-code bg-[#1A1B20] border border-red-500/30 text-red-400 px-2 py-1 rounded">#METALLICA</span>
+          <span class="text-[11px] font-code bg-[#1A1B20] border border-[#2B2D38] text-gray-300 px-2 py-1 rounded">#HEAVYMETAL</span>
+          <span class="text-[11px] font-code bg-[#1A1B20] border border-[#2B2D38] text-gray-300 px-2 py-1 rounded">#THRASHMETAL</span>
+          <span class="text-[11px] font-code bg-[#1A1B20] border border-red-500/30 text-red-400 px-2 py-1 rounded">#METALMEMESMX</span>
+          <span class="text-[11px] font-code bg-[#1A1B20] border border-[#2B2D38] text-gray-300 px-2 py-1 rounded">#CONCIERTOSMEXICO</span>
+          <span class="text-[11px] font-code bg-[#1A1B20] border border-[#2B2D38] text-gray-300 px-2 py-1 rounded">#HEADBANGER</span>
+          <span class="text-[11px] font-code bg-[#1A1B20] border border-[#2B2D38] text-gray-300 px-2 py-1 rounded">#MOSHPIT</span>
+        </div>
+        <button onclick="insertHashtags()" class="w-full py-2 bg-[#1A1B20] hover:bg-[#252733] border border-[#2B2D38] text-xs font-code font-bold text-gray-300 rounded">
+          + INSERTAR TAGS EN CAPTION
+        </button>
+      </div>
+
+      <button onclick="goToTab('publicar')" class="w-full py-3.5 bg-gradient-to-r from-[#FF2A44] to-[#E61919] text-white font-metal text-lg tracking-wider rounded-xl shadow-lg shadow-red-950 flex items-center justify-center gap-2">
+        🚀 AVANZAR A PUBLICAR EN INSTAGRAM
+      </button>
+    </main>
+
+    <!-- ========================================== -->
+    <!-- TAB 4: PUBLICAR EN INSTAGRAM -->
+    <!-- ========================================== -->
+    <main id="tab-publicar" class="flex-1 p-4 space-y-4 hidden">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="text-[10px] font-code text-red-400 font-bold uppercase tracking-wider">// PROTOCOLO EXPORT V4.2</span>
+          <h2 class="text-2xl font-metal text-white tracking-wide">VISTA PREVIA DE POST</h2>
+        </div>
+        <span class="text-[10px] font-code bg-green-500/10 text-green-400 border border-green-500/20 px-2 py-1 rounded">LISTO PARA IG</span>
+      </div>
+
+      <!-- Mockup Instagram Post -->
+      <div class="bg-black border border-[#252733] rounded-xl overflow-hidden shadow-2xl">
+        <!-- Post Header -->
+        <div class="p-3 flex items-center justify-between border-b border-[#1E2028]">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 rounded-full bg-red-600 flex items-center justify-center font-metal text-xs text-white">M</div>
+            <div>
+              <p class="text-xs font-bold text-white leading-none">metalmemesmx</p>
+              <p class="text-[10px] text-gray-400">Ciudad de México • Conciertos</p>
+            </div>
+          </div>
+          <span class="text-gray-400 text-sm">•••</span>
+        </div>
+
+        <!-- Post Image (3:4 Vertical Aspect) -->
+        <div class="relative aspect-[3/4] bg-neutral-900 overflow-hidden">
+          <img id="postPreviewImg" src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover filter grayscale contrast-125" alt="Post">
+          <div class="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent"></div>
+
+          <div class="absolute bottom-0 inset-x-0 p-4 space-y-1">
+            <h3 id="postHeadline" class="text-3xl font-metal text-white leading-none uppercase">METALLICA</h3>
+            <p id="postSubheadline" class="text-base font-metal text-[#FF2A44] leading-tight italic uppercase">CONFIRMA NUEVA FECHA EN MÉXICO TRAS HISTÓRICO SOLD OUT</p>
+            <div class="bg-[#FF2A44] py-1.5 px-2 mt-2 flex items-center justify-center gap-1.5 rounded-sm">
+              <span class="text-[10px] font-extrabold uppercase italic text-white leading-none">SIGUE NUESTRO CANAL DE YOUTUBE: METAL MEMES MX</span>
+            </div>
+          </div>
+
+          <div class="absolute top-3 right-3 bg-black/60 text-white font-code text-[10px] px-2 py-0.5 rounded border border-white/20">
+            3:4 HD (1080×1440)
+          </div>
+        </div>
+
+        <!-- Post Actions -->
+        <div class="p-3 border-t border-[#1E2028] space-y-2">
+          <div class="flex justify-between items-center text-lg text-white">
+            <div class="flex gap-4">
+              <span>❤️</span>
+              <span>💬</span>
+              <span>✈️</span>
+            </div>
+            <span>🔖</span>
+          </div>
+          <p class="text-[11px] font-bold text-white">Les gusta a duplantier_official y 4,892 personas más</p>
+          <p class="text-xs text-gray-300 leading-snug">
+            <span class="font-bold text-white">metalmemesmx</span>
+            <span id="postCaptionSnippet">¡HISTÓRICO! ⚡ Metallica acaba de confirmar nueva fecha en México...</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Acciones de Descarga y Publicación -->
+      <div class="space-y-2">
+        <button onclick="downloadImagePrompt()" class="w-full py-3.5 bg-gradient-to-r from-[#FF2A44] to-[#E61919] hover:from-red-500 text-white font-metal text-lg tracking-wider rounded-xl shadow-lg shadow-red-950 flex items-center justify-center gap-2 transition">
+          📥 DESCARGAR IMAGEN HD (1080 × 1440 PX)
+        </button>
+        <button onclick="copyFullCaption()" class="w-full py-2.5 bg-[#1A1B20] hover:bg-[#252733] border border-[#2B2D38] text-xs font-code font-bold text-gray-200 rounded-lg flex items-center justify-center gap-2">
+          📋 COPIAR CAPTION COMPLETO PARA INSTAGRAM
+        </button>
+      </div>
+    </main>
+
+    <!-- ========================================== -->
+    <!-- BOTTOM TAB NAVIGATION BAR (Fijo) -->
+    <!-- ========================================== -->
+    <nav class="fixed bottom-0 inset-x-0 max-w-[440px] mx-auto bg-[#121317]/95 backdrop-blur border-t border-[#22242C] py-2 px-3 flex justify-around items-center z-50">
+      <button onclick="goToTab('noticias')" id="nav-noticias" class="flex flex-col items-center gap-1 text-[#FF2A44] text-[10px] font-code font-bold transition">
+        <span class="text-base">📰</span>
+        <span>NOTICIAS</span>
+      </button>
+      <button onclick="goToTab('plantilla')" id="nav-plantilla" class="flex flex-col items-center gap-1 text-gray-500 hover:text-white text-[10px] font-code transition">
+        <span class="text-base">🎨</span>
+        <span>PLANTILLA</span>
+      </button>
+      <button onclick="goToTab('caption')" id="nav-caption" class="flex flex-col items-center gap-1 text-gray-500 hover:text-white text-[10px] font-code transition">
+        <span class="text-base">✍️</span>
+        <span>CAPTION</span>
+      </button>
+      <button onclick="goToTab('publicar')" id="nav-publicar" class="flex flex-col items-center gap-1 text-gray-500 hover:text-white text-[10px] font-code transition">
+        <span class="text-base">🚀</span>
+        <span>PUBLICAR</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <!-- JavaScript Unificado para Navegación y Lógica -->
+  <script>
+    // Navegación entre Pestañas
+    const tabs = ['noticias', 'plantilla', 'caption', 'publicar'];
+    const tabSubtitles = {
+      'noticias': '// NOTICIAS & RADAR',
+      'plantilla': '// EDITOR DE PLANTILLA',
+      'caption': '// GENERADOR DE CAPTION',
+      'publicar': '// PUBLICAR EN INSTAGRAM'
+    };
+
+    function goToTab(tabName) {
+      tabs.forEach(t => {
+        const el = document.getElementById('tab-' + t);
+        const nav = document.getElementById('nav-' + t);
+        if (t === tabName) {
+          el.classList.remove('hidden');
+          nav.className = 'flex flex-col items-center gap-1 text-[#FF2A44] text-[10px] font-code font-bold transition';
+        } else {
+          el.classList.add('hidden');
+          nav.className = 'flex flex-col items-center gap-1 text-gray-500 hover:text-white text-[10px] font-code transition';
+        }
+      });
+      document.getElementById('topBarSubtitle').innerText = tabSubtitles[tabName];
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Pasar noticia del Feed al Editor de Plantilla
+    function useNewsInTemplate(headline, subheadline) {
+      document.getElementById('inputHeadline').value = headline;
+      document.getElementById('inputSubheadline').value = subheadline;
+      updateHeadline(headline);
+      updateSubheadline(subheadline);
+      goToTab('plantilla');
+    }
+
+    // Funciones del Editor de Plantilla
+    function updateHeadline(text) {
+      const val = text.toUpperCase();
+      document.getElementById('previewHeadline').innerText = val;
+      document.getElementById('postHeadline').innerText = val;
+    }
+
+    function updateSubheadline(text) {
+      const val = text.toUpperCase();
+      document.getElementById('previewSubheadline').innerText = val;
+      document.getElementById('postSubheadline').innerText = val;
+    }
+
+    function updateImage(url) {
+      if (url && url.trim() !== '') {
+        document.getElementById('bgImage').src = url;
+        document.getElementById('postPreviewImg').src = url;
+      }
+    }
+
+    function uploadLocalImage(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('bgImage').src = e.target.result;
+          document.getElementById('postPreviewImg').src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function setRatio(ratio) {
+      const canvas = document.getElementById('memeCanvas');
+      const badge = document.getElementById('currentFormatBadge');
+      const btn1 = document.getElementById('btn-1-1');
+      const btn2 = document.getElementById('btn-3-4');
+      const btn3 = document.getElementById('btn-9-16');
+
+      [btn1, btn2, btn3].forEach(b => {
+        b.className = 'format-btn py-2 px-3 rounded bg-[#1A1B20] border border-[#2B2D38] text-xs font-code font-bold text-gray-400 hover:text-white transition flex flex-col items-center gap-1';
+      });
+
+      if (ratio === '1:1') {
+        canvas.className = 'w-full max-w-[340px] aspect-[1/1] bg-neutral-900 rounded-lg overflow-hidden relative shadow-2xl flex flex-col justify-between select-none border border-neutral-800 transition-all duration-300';
+        badge.innerText = '1:1 FEED (1080 × 1080)';
+        btn1.className = 'format-btn py-2 px-3 rounded bg-[#FF2A44] border border-[#FF2A44] text-xs font-code font-bold text-white shadow-lg shadow-red-950 flex flex-col items-center gap-1';
+      } else if (ratio === '3:4') {
+        canvas.className = 'w-full max-w-[340px] aspect-[3/4] bg-neutral-900 rounded-lg overflow-hidden relative shadow-2xl flex flex-col justify-between select-none border border-neutral-800 transition-all duration-300';
+        badge.innerText = '3:4 FEED (1080 × 1440)';
+        btn2.className = 'format-btn py-2 px-3 rounded bg-[#FF2A44] border border-[#FF2A44] text-xs font-code font-bold text-white shadow-lg shadow-red-950 flex flex-col items-center gap-1';
+      } else if (ratio === '9:16') {
+        canvas.className = 'w-full max-w-[340px] aspect-[9/16] bg-neutral-900 rounded-lg overflow-hidden relative shadow-2xl flex flex-col justify-between select-none border border-neutral-800 transition-all duration-300';
+        badge.innerText = '9:16 STORY (1080 × 1920)';
+        btn3.className = 'format-btn py-2 px-3 rounded bg-[#FF2A44] border border-[#FF2A44] text-xs font-code font-bold text-white shadow-lg shadow-red-950 flex flex-col items-center gap-1';
+      }
+    }
+
+    const examples = [
+      { band: 'METALLICA', news: 'CONFIRMA NUEVA FECHA EN MÉXICO TRAS HISTÓRICO SOLD OUT', img: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=800&auto=format&fit=crop' },
+      { band: 'OZZY OSBOURNE', news: 'CRAZY TRAIN LLEGA A LOS MIL MILLONES EN SPOTIFY', img: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=800&auto=format&fit=crop' },
+      { band: 'SLIPKNOT', news: 'ELOGIAN AL PÚBLICO MEXICANO: "EL MÁS SALVAJE DEL PLANETA"', img: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=800&auto=format&fit=crop' }
+    ];
+    let exIdx = 0;
+    function randomizeBand() {
+      exIdx = (exIdx + 1) % examples.length;
+      const cur = examples[exIdx];
+      document.getElementById('inputHeadline').value = cur.band;
+      document.getElementById('inputSubheadline').value = cur.news;
+      updateHeadline(cur.band);
+      updateSubheadline(cur.news);
+      updateImage(cur.img);
+    }
+
+    // Funciones de Caption
+    function updateCharCount() {
+      const text = document.getElementById('captionBox').value;
+      document.getElementById('charCount').innerText = `${text.length} CARACTERES`;
+      document.getElementById('postCaptionSnippet').innerText = text.slice(0, 80) + '...';
+    }
+
+    function selectTone(tone) {
+      ['metalero', 'meme', 'periodistico', 'debate'].forEach(t => {
+        const btn = document.getElementById('tone-' + t);
+        if (t === tone) {
+          btn.className = 'p-3 rounded-lg bg-[#FF2A44]/15 border border-[#FF2A44] text-left transition';
+        } else {
+          btn.className = 'p-3 rounded-lg bg-[#16171E] border border-[#2B2D38] text-left transition';
+        }
+      });
+      regenerateCaption(tone);
+    }
+
+    function regenerateCaption(tone = 'metalero') {
+      const band = document.getElementById('inputHeadline').value || 'METALLICA';
+      let newCopy = "";
+      if (tone === 'meme') {
+        newCopy = `Mi cartera llorando en una esquina y yo a punto de vender un riñón porque ${band} sacó más boletos. 💀 Prioridades claras, banda. Etiqueta al que te debe una chela en el concierto.`;
+      } else if (tone === 'periodistico') {
+        newCopy = `OFICIAL: La agrupación ${band} anunció una ampliación de su itinerario internacional tras agotar localidades en tiempo récord. Detalles y fechas completas en el link de la biografía.`;
+      } else if (tone === 'debate') {
+        newCopy = `¿Sobrevalorados o leyendas absolutas? Lo de ${band} no tiene comparación, pero queremos saber su opinión real. ¿Vale la pena pagar lo que piden hoy en día por verlos en vivo?`;
+      } else {
+        newCopy = `¡HISTÓRICO! ⚡ ${band} acaba de confirmar lo que todos los headbangers estábamos esperando. 🤘 ¿Cuál es esa rola que NO puede faltar en el setlist? Déjalo en comentarios y etiqueta a tu compa.`;
+      }
+      document.getElementById('captionBox').value = newCopy;
+      updateCharCount();
+    }
+
+    function insertHashtags() {
+      const box = document.getElementById('captionBox');
+      const tags = "\n\n#MetalMemesMX #HeavyMetal #ThrashMetal #Headbanger #ConciertosMexico #Metalheads";
+      if (!box.value.includes("#MetalMemesMX")) {
+        box.value += tags;
+      }
+      updateCharCount();
+    }
+
+    function copyCaption() {
+      const box = document.getElementById('captionBox');
+      navigator.clipboard.writeText(box.value);
+      alert('¡Caption copiado al portapapeles!');
+    }
+
+    function copyFullCaption() {
+      copyCaption();
+    }
+
+    function downloadImagePrompt() {
+      alert('¡Plantilla lista en 3:4 (1080 × 1440 px)! Puedes tomar captura de pantalla en tu celular o conectar html2canvas para guardado directo.');
+    }
+  </script>
+</body>
+</html>
