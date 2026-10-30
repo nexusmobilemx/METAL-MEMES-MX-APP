@@ -1,0 +1,13 @@
+{
+  "name": "metal-memes-mx-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:css": "tailwindcss -i src/input.css -o styles.css --minify",
+    "news": "node scripts/fetch-news.mjs",
+    "test": "node scripts/fetch-news.test.mjs"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

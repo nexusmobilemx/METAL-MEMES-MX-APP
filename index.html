@@ -7,22 +7,8 @@
   <title>Metal Memes MX - Creador de Contenido</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23FF2A44' d='M12 2L1 21h22L12 2zm0 4.5l7.5 13h-15L12 6.5z'/%3E%3C/svg%3E">
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            anton: ['Anton', 'sans-serif'],
-            mono: ['JetBrains Mono', 'Courier New', 'monospace'],
-            sans: ['Inter', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
+  <!-- Tailwind compilado (npm run build:css) -->
+  <link rel="stylesheet" href="styles.css">
 
   <!-- Google Fonts: Anton, JetBrains Mono, Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -96,6 +82,7 @@
       <!-- Tags de género -->
       <div id="genreBar" class="flex gap-2 overflow-x-auto no-scrollbar py-1 text-[11px] font-code font-bold" role="group" aria-label="Filtrar por género"></div>
 
+      <p id="newsUpdated" class="text-[10px] font-code text-gray-500 -mt-2"></p>
       <div id="newsList" class="space-y-4"></div>
     </main>
 
@@ -385,7 +372,7 @@
     const IMG_STAGE = 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=800&auto=format&fit=crop';
     const IMG_CROWD = 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=800&auto=format&fit=crop';
 
-    const NEWS = [
+    let NEWS = [
       {
         id: 'slayer-metallica', band: 'Slayer y Metallica', genre: 'THRASH', genreTag: '#ThrashMetal',
         headline: 'Confirman fechas conjuntas en Latinoamérica: la gira definitiva',
@@ -430,10 +417,12 @@
       caption: '',
       captionEdited: false,
       genreTag: '',
+      newsId: null,
       tagSel: {},
       processed: []
     };
     let genreFilter = 'TODAS';
+    let newsMeta = '';
     let newsQuery = '';
     let exIdx = 0;
 
@@ -566,7 +555,32 @@
     // ============================================================
     // Noticias
     // ============================================================
+    function timeAgo(iso) {
+      const min = Math.max(1, Math.round((Date.now() - Date.parse(iso)) / 60000));
+      if (min < 60) return `HACE ${min} MIN`;
+      if (min < 1440) return `HACE ${Math.round(min / 60)} H`;
+      return `HACE ${Math.round(min / 1440)} D`;
+    }
+    const whenText = n => (n.published ? timeAgo(n.published) : n.time || '');
+    const safeLink = u => (/^https?:\/\//i.test(u || '') ? u : '');
+
+    // Carga news.json (lo actualiza la acción de GitHub); si no existe, quedan las noticias de ejemplo
+    async function loadNews() {
+      try {
+        const res = await fetch('news.json', { cache: 'no-cache' });
+        if (!res.ok) return;
+        const data = await res.json();
+        const items = (data.items || []).filter(n => n && n.id && n.band && n.headline);
+        if (!items.length) return;
+        NEWS = items.map(n => ({ genre: 'METAL', genreTag: '', source: '', viral: 50, tag: '', summary: '', img: IMG_CONCERT, ...n }));
+        newsMeta = data.updated ? `ACTUALIZADO ${timeAgo(data.updated)}` : '';
+        if (genreFilter !== 'TODAS' && !NEWS.some(n => n.genre === genreFilter)) genreFilter = 'TODAS';
+        renderNews();
+      } catch (e) { /* sin news.json (p. ej. abierto como archivo): usamos los ejemplos */ }
+    }
+
     function renderNews() {
+      $('newsUpdated').textContent = newsMeta;
       const pending = NEWS.filter(n => !state.processed.includes(n.id)).length;
       $('pendingBadge').textContent = `${pending} SIN PROCESAR`;
 
@@ -602,10 +616,11 @@
             <div class="p-4 pt-1 space-y-2">
               <div class="flex items-center justify-between text-[10px] font-code text-gray-400">
                 <span>${esc(n.tag)} ${usedBadge}</span>
-                <span>${esc(n.time)}</span>
+                <span>${esc(whenText(n))}</span>
               </div>
               <h3 class="text-xl font-metal text-white leading-tight uppercase">${esc(n.band)}: ${esc(n.headline)}</h3>
               <p class="text-xs text-gray-400 leading-relaxed font-sans">${esc(n.summary)}</p>
+              ${safeLink(n.link) ? `<a href="${esc(safeLink(n.link))}" target="_blank" rel="noopener noreferrer" class="text-[10px] font-code text-gray-500 hover:text-red-400 underline">Ver fuente original ↗</a>` : ''}
               <button type="button" data-use="${esc(n.id)}" class="w-full py-2.5 bg-[#FF2A44] hover:bg-red-600 text-white font-metal text-sm tracking-wider rounded-lg flex items-center justify-center gap-1.5 transition">
                 🪄 USAR EN PLANTILLA
               </button>
@@ -643,6 +658,7 @@
       state.headline = n.band;
       state.sub = n.headline;
       state.genreTag = n.genreTag;
+      state.newsId = n.id;
       state.captionEdited = false;
       state.variant = 0;
       if (!state.processed.includes(n.id)) state.processed.push(n.id);
@@ -747,6 +763,7 @@
       state.headline = cur.band;
       state.sub = cur.news;
       state.genreTag = '';
+      state.newsId = null;
       state.captionEdited = false;
       state.variant = 0;
       setBackground(cur.img);
@@ -795,10 +812,19 @@
       return news ? `${band}: ${news}` : band;
     }
 
+    // Captions generados con Claude (news.json): valen mientras titular y subtítulo no se hayan editado
+    function aiCaptions() {
+      const n = NEWS.find(x => x.id === state.newsId);
+      const list = n && n.captions && n.captions[state.tone];
+      if (!Array.isArray(list) || state.headline !== n.band || state.sub !== n.headline) return [];
+      return list.filter(c => typeof c === 'string' && c.trim());
+    }
+
     function generateCaption(advance) {
-      const variants = CAPTIONS[state.tone];
+      const variants = [...aiCaptions(), ...CAPTIONS[state.tone]];
       if (advance) state.variant = (state.variant + 1) % variants.length;
-      const base = variants[state.variant % variants.length](topicText());
+      const pick = variants[state.variant % variants.length];
+      const base = typeof pick === 'function' ? pick(topicText()) : pick;
       // Conserva el bloque de hashtags si ya estaba insertado
       const hadTags = /(?:^|\s)#\S+\s*$/.test($('captionBox').value);
       state.caption = hadTags ? withTags(base) : base;
@@ -1084,6 +1110,7 @@
     renderToneButtons();
     renderTags();
     renderNews();
+    loadNews().then(() => { if (!state.captionEdited) generateCaption(false); });
     if (state.captionEdited && state.caption) {
       $('captionBox').value = state.caption;
       updateCharCount();
